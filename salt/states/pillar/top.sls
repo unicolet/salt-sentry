@@ -1,0 +1,4 @@
+base:
+  '*':
+    - sentry-server
+    - sentry

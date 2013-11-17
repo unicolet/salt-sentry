@@ -1,0 +1,7 @@
+[pgdg-92-centos]
+name=pgdg-92-centos
+#gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-92
+baseurl=http://yum.postgresql.org/9.2/redhat/rhel-$releasever-$basearch
+gpgcheck=0
+enabled=1
+
