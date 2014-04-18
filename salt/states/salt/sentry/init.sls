@@ -99,6 +99,7 @@ sentry_db_upgrade:
     - user: root
     - group: root
     - mode: 640 
+    - template: jinja
 
 stop sentry; start sentry:
    cmd:
