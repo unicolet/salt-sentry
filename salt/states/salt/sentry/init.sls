@@ -1,5 +1,21 @@
+sentry_user:
+  user.present:
+    - name: {{ pillar['sentry_server']['unix_user'] }}
+    - fullname: Sentry
+    - shell: /bin/bash
+    - home: /opt/sentry
+    - gid_from_name: True
+    - require:
+      - group: sentry_group
+
+sentry_group:
+  group.present:
+    - name: {{ pillar['sentry_server']['unix_group'] }}
+
 python-virtualenv:
-  pkg.installed
+  pkg.installed:
+    - require:
+      - user: sentry_user
 
 extra-sentry-packages:
   pkg.installed:
@@ -7,12 +23,13 @@ extra-sentry-packages:
        - postgresql92-devel
        - expect
        - python-pip
+       - gcc
 
 sentryvenv:
     virtualenv.managed:
         - name: /opt/sentry/venv
         - no_site_packages: True
-        - runas: vagrant
+        - runas: {{ pillar['sentry_server']['unix_user'] }}
         - requirements: salt://sentry/requirements.txt
         - require:
             - pkg: python-virtualenv
@@ -26,8 +43,8 @@ sentryvenv:
 
 /opt/sentry/venv:
   file.directory:
-    - user: vagrant
-    - group: vagrant
+    - user: {{ pillar['sentry_server']['unix_user'] }}
+    - group: {{ pillar['sentry_server']['unix_group'] }}
     - mode: 755
     - makedirs: True
 
@@ -41,7 +58,7 @@ sentryvenv:
 /etc/sentry.conf.py:
   file.managed:
     - source: salt://sentry/sentry.conf.py
-    - user: vagrant
+    - user: {{ pillar['sentry_server']['unix_user'] }}
     - group: root
     - mode: 640
     - template: jinja
@@ -62,7 +79,7 @@ sentryvenv:
 sentry_db_upgrade:
    cmd.wait_script:
     - source: salt://sentry/sentry_upgrade.sh
-    - user: vagrant 
+    - user: {{ pillar['sentry_server']['unix_user'] }} 
     - watch:
       - virtualenv: sentryvenv
       - postgres_database: {{ pillar['sentry_server']['db_name'] }}
@@ -71,7 +88,7 @@ sentry_db_upgrade:
 # for those cases when you want to force an upgrade, ie a venv split failure
 /opt/sentry/venv/bin/sentry --config=/etc/sentry.conf.py upgrade && /bin/rm -f /opt/sentry/venv/must_upgrade:
    cmd.run:
-    - user: vagrant
+    - user: {{ pillar['sentry_server']['unix_user'] }}
     - onlyif: /usr/bin/test -e /opt/sentry/venv/must_upgrade
     - require:
       - virtualenv: sentryvenv
