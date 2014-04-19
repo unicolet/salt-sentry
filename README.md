@@ -3,8 +3,31 @@ Salt states for Sentry
 
 In this repo you will find a set of [SaltStack](http://www.saltstack.com/community/) states that will get [Sentry](http://getsentry.com) running on a Centos 6 box.
 
-Getting started with Vagrant
-----------------------------
+Installing on Centos 6
+----------------------
+
+clone this repo:
+
+      git clone https://github.com/unicolet/salt-sentry.git
+      cd salt-sentry
+      git checkout -b local
+      yum -y install salt-minion
+      ln -s salt/states/salt /srv/salt
+      ln -s salt/states/pillar /srv/pillar
+      
+Edit /etc/salt/minion and enable masterless mode by setting:
+
+     file_client: local
+
+Adjust salt/states/pillar/sentry-server.sls to your environment
+
+Run:
+
+     salt-call state.highstate
+
+
+Getting started with Vagrant (obsolete)
+---------------------------------------
 
 Clone this repo or a fork and then run:
 
@@ -21,8 +44,8 @@ Warning
 Event if it works it does not mean that a Sentry server configured this way is ready for production.
 In particular the following issues should be addressed before putting in production:
 
-1. Sentry is running as root (Fixed in 15d2d49d17076eeeacf079a61dbaaca6e0cad39a)
-2. There is no caching layer, performance could be subpar depending on the expected traffic (Fixed in 9db87cceee3ca473b8b683fc037bdae6ccbd6c2d by enabling memcached by default)
+1. <del>Sentry is running as root</del> (Fixed in 15d2d49d17076eeeacf079a61dbaaca6e0cad39a)
+2. There is <del>no</del> a little caching layer, performance could be subpar depending on the expected traffic (Partly fixed in 9db87cceee3ca473b8b683fc037bdae6ccbd6c2d by enabling memcached by default)
 3. By default [all hosts](https://github.com/unicolet/salt-sentry/blob/master/salt/states/pillar/sentry-server.sls#L6) are allowed, you should change that
 4. Read carefully the [Sentry documentation](http://sentry.readthedocs.org/en/latest/)
 5. Nginx hardening
