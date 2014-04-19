@@ -47,7 +47,7 @@ In particular the following issues should be addressed before putting in product
 
 1. <del>Sentry is running as root</del> (Fixed in 15d2d49d17076eeeacf079a61dbaaca6e0cad39a)
 2. There is <del>no</del> a little caching layer, performance could be subpar depending on the expected traffic (Partly fixed in 9db87cceee3ca473b8b683fc037bdae6ccbd6c2d by enabling memcached by default)
-3. By default [all hosts](https://github.com/unicolet/salt-sentry/blob/master/salt/states/pillar/sentry-server.sls#L6) are allowed, you should change that
+3. By default [all hosts](https://github.com/unicolet/salt-sentry/blob/master/salt/states/pillar/sentry-server.sls#L8) are allowed, you should change that
 4. Read carefully the [Sentry documentation](http://sentry.readthedocs.org/en/latest/)
 5. Nginx hardening
 6. SSL
