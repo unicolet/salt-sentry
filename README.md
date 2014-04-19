@@ -57,7 +57,7 @@ In particular the following issues should be addressed before putting in product
 Disclaimer
 ----------
 
-Basically, it's always your fault.
+As usual, this comes without any kind of warranty. Use the source and your own judgement.
 
 License
 -------
