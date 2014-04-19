@@ -24,6 +24,14 @@ extra-sentry-packages:
        - expect
        - python-pip
        - gcc
+       - memcached
+
+memcached:
+   service:
+     - running
+     - enable: True
+     - require:
+       - pkg: extra-sentry-packages
 
 sentryvenv:
     virtualenv.managed:
@@ -40,6 +48,8 @@ sentryvenv:
             - file: /etc/profile.d/pg.sh
             - file: /etc/sentry.conf.py
             - postgres_database: {{ pillar['sentry_server']['db_name'] }}
+            - pip: python-memcached
+            - service: memcached
 
 /opt/sentry/venv:
   file.directory:
@@ -127,6 +137,11 @@ stop sentry; start sentry:
        - service: nginx
 
 raven=={{ pillar['raven']['version'] }}:
+   pip.installed:
+     - require:
+       - pkg: extra-sentry-packages
+
+python-memcached:
    pip.installed:
      - require:
        - pkg: extra-sentry-packages
