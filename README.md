@@ -20,7 +20,7 @@ Edit /etc/salt/minion and enable masterless mode by setting:
 
      file_client: local
 
-Adjust salt/states/pillar/sentry-server.sls to your environment
+Adjust [salt/states/pillar/sentry-server.sls](https://github.com/unicolet/salt-sentry/blob/master/salt/states/pillar/sentry-server.sls) to your environment
 
 Run:
 
