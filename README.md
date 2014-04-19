@@ -6,14 +6,15 @@ In this repo you will find a set of [SaltStack](http://www.saltstack.com/communi
 Installing on Centos 6
 ----------------------
 
-clone this repo:
+As root, clone this repo:
 
+      cd /root
       git clone https://github.com/unicolet/salt-sentry.git
       cd salt-sentry
       git checkout -b local
       yum -y install salt-minion
-      ln -s salt/states/salt /srv/salt
-      ln -s salt/states/pillar /srv/pillar
+      ln -s /root/salt-sentry/salt/states/salt /srv/salt
+      ln -s /root/salt-sentry/salt/states/pillar /srv/pillar
       
 Edit /etc/salt/minion and enable masterless mode by setting:
 
