@@ -51,9 +51,9 @@ postgresql92-server:
        - cmd: /etc/init.d/postgresql-9.2 initdb
 
 /var/lib/pgsql/9.2/data/postgresql.conf:
-   file.sed:
-     - before: "#listen_addresses = 'localhost'"
-     - after: "listen_addresses = '*'"
+   file.replace:
+     - pattern: "#listen_addresses = 'localhost'"
+     - repl: "listen_addresses = '*'"
      - require:
        - cmd: /etc/init.d/postgresql-9.2 initdb
  
